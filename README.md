@@ -9,8 +9,9 @@ In this example I'll show you how to search for both standard and doubles in cas
 First you would create your own `example.cfg` file in `bakkesmod\cfg` and name it whatever you'd like.
 In that config file you would put the following commands:
 
+(Please note that all `Search Commands` do all the following below automatically, just making all possible combinations into commands wouldn't be feasible, so this is how you would do a completely custom version of selecting and queuing)
 ```
-queue_view_casual
+queue_view_casual // It's important to set the view tab first or searching will not work properly, you don't need to do this for "queue_search_cstandard" related commands as it does this automatically
 queue_deselect_casual // Optional, this would deselect any playlists you had selected previously that you might have forgotten
 queue_select_cstandard
 queue_select_cdoubles
