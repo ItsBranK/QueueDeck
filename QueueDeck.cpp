@@ -3,7 +3,7 @@
 #include <sstream>
 #include <fstream>
 
-BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "2.8", PERMISSION_ALL)
+BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "2.9", PERMISSION_ALL)
 
 enum EPlaylistRows
 {
@@ -115,18 +115,6 @@ void QueueDeck::onLoad()
 
 	if (areGObjectsValid() && areGNamesValid())
 	{
-		classInstances.emplace("Class Core.Object", pClassPointerObject);
-		classInstances.emplace("Class Core.Function", pClassPointerFunction);
-		classInstances.emplace("Class Core.Class", pClassPointerClass);
-		classInstances.emplace("Class TAGame.GFxData_Matchmaking_TA", pClassPointerGFxData_Matchmaking_TA);
-
-		functionInstances.emplace("Function TAGame.GFxData_Matchmaking_TA.StartMatchmaking", pFnStartMatchmaking);
-		functionInstances.emplace("Function TAGame.GFxData_Matchmaking_TA.CancelSearch", pFnCancelSearch);
-		functionInstances.emplace("Function TAGame.GFxData_Matchmaking_TA.SetMatchmakingViewTab", pFnSetMatchmakingViewTab);
-		functionInstances.emplace("Function TAGame.GFxData_Matchmaking_TA.SetPlaylistSelection", pFnSetPlaylistSelection);
-		functionInstances.emplace("Function TAGame.GFxData_Matchmaking_TA.SetRegionSelection", pFnSetRegionSelection);
-		functionInstances.emplace("Function TAGame.GFxData_Matchmaking_TA.UpdateSelectedRegions", pFnUpdateSelectedRegions);
-
 		loadInstances();
 
 		if (!classesSafe)
@@ -228,41 +216,48 @@ void QueueDeck::onUnload()
 
 void QueueDeck::loadInstances()
 {
-	while (!UObject::GObjObjects())
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	classInstances.emplace("Core.Object", 0);
+	classInstances.emplace("Core.Class", 0);
+	classInstances.emplace("Core.Function", 0);
+	classInstances.emplace("TAGame.GFxData_Matchmaking_TA", 0);
 
-	while (!FName::Names())
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	functionInstances.emplace("GFxData_Matchmaking_TA.StartMatchmaking", 0);
+	functionInstances.emplace("GFxData_Matchmaking_TA.CancelSearch", 0);
+	functionInstances.emplace("GFxData_Matchmaking_TA.SetMatchmakingViewTab", 0);
+	functionInstances.emplace("GFxData_Matchmaking_TA.SetPlaylistSelection", 0);
+	functionInstances.emplace("GFxData_Matchmaking_TA.SetRegionSelection", 0);
+	functionInstances.emplace("GFxData_Matchmaking_TA.UpdateSelectedRegions", 0);
 
 	for (int i = 0; i < UObject::GObjObjects()->Num(); i++)
 	{
 		UObject* object = UObject::GObjObjects()->Data[i];
 
-		if (object)
+		if (object && object->Outer)
 		{
-			std::string objectFullName = object->GetFullName();
+			std::string objectName = std::string(object->Outer->GetName()) + "." + std::string(object->GetName());
 
-			std::map<std::string, UClass*>::iterator classIt = classInstances.find(objectFullName);
-			std::map<std::string, UFunction*>::iterator functionIt = functionInstances.find(objectFullName);
+			std::map<std::string, int>::iterator classIt = classInstances.find(objectName);
+			std::map<std::string, int>::iterator functionIt = functionInstances.find(objectName);
 
 			if (classIt != classInstances.end())
-				classInstances[objectFullName] = (UClass*)object;
+				classInstances[objectName] = object->ObjectInternalInteger;
 
 			if (functionIt != functionInstances.end())
-				functionInstances[objectFullName] = (UFunction*)object;
+				functionInstances[objectName] = object->ObjectInternalInteger;
 		}
 	}
 
-	UObject::StaticClass(classInstances["Class Core.Object"]);
-	UClass::StaticClass(classInstances["Class Core.Class"]);
-	UFunction::StaticClass(classInstances["Class Core.Function"]);
-	UGFxData_Matchmaking_TA::StaticClass(classInstances["Class TAGame.GFxData_Matchmaking_TA"]);
-	pFnStartMatchmaking = functionInstances["Function TAGame.GFxData_Matchmaking_TA.StartMatchmaking"];
-	pFnCancelSearch = functionInstances["Function TAGame.GFxData_Matchmaking_TA.CancelSearch"];
-	pFnSetMatchmakingViewTab = functionInstances["Function TAGame.GFxData_Matchmaking_TA.SetMatchmakingViewTab"];
-	pFnSetPlaylistSelection = functionInstances["Function TAGame.GFxData_Matchmaking_TA.SetPlaylistSelection"];
-	pFnSetRegionSelection = functionInstances["Function TAGame.GFxData_Matchmaking_TA.SetRegionSelection"];
-	pFnUpdateSelectedRegions = functionInstances["Function TAGame.GFxData_Matchmaking_TA.UpdateSelectedRegions"];
+	UObject::StaticClass(classInstances["Core.Object"]);
+	UClass::StaticClass(classInstances["Core.Class"]);
+	UFunction::StaticClass(classInstances["Core.Function"]);
+	UGFxData_Matchmaking_TA::StaticClass(classInstances["TAGame.GFxData_Matchmaking_TA"]);
+
+	pFnStartMatchmaking = (UFunction*)UObject::GObjObjects()->Data[functionInstances["GFxData_Matchmaking_TA.StartMatchmaking"]];
+	pFnCancelSearch = (UFunction*)UObject::GObjObjects()->Data[functionInstances["GFxData_Matchmaking_TA.CancelSearch"]];
+	pFnSetMatchmakingViewTab = (UFunction*)UObject::GObjObjects()->Data[functionInstances["GFxData_Matchmaking_TA.SetMatchmakingViewTab"]];
+	pFnSetPlaylistSelection = (UFunction*)UObject::GObjObjects()->Data[functionInstances["GFxData_Matchmaking_TA.SetPlaylistSelection"]];
+	pFnSetRegionSelection = (UFunction*)UObject::GObjObjects()->Data[functionInstances["GFxData_Matchmaking_TA.SetRegionSelection"]];
+	pFnUpdateSelectedRegions = (UFunction*)UObject::GObjObjects()->Data[functionInstances["GFxData_Matchmaking_TA.UpdateSelectedRegions"]];
 	matchmaking = GetInstanceOf<UGFxData_Matchmaking_TA>();
 
 	if (UObject::StaticClass()

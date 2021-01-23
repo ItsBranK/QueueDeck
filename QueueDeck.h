@@ -8,13 +8,10 @@
 class QueueDeck : public BakkesMod::Plugin::BakkesModPlugin
 {
 private:
-	std::map<std::string, UClass*> classInstances;
-	std::map<std::string, UFunction*> functionInstances;
+	std::map<std::string, int> classInstances;
+	std::map<std::string, int> functionInstances;
 
-	UClass* pClassPointerObject = nullptr; // Class Core.Object
-	UClass* pClassPointerClass = nullptr; // Class Core.Class
-	UClass* pClassPointerFunction = nullptr; // Class Core.Function
-	UClass* pClassPointerGFxData_Matchmaking_TA = nullptr; // Class TAGame.GFxData_Matchmaking_TA
+	UGFxData_Matchmaking_TA* matchmaking = nullptr; // Class TAGame.GFxData_Matchmaking_TA
 
 	UFunction* pFnStartMatchmaking = nullptr; // Function TAGame.OnlineGameTourMatchmaking_TA.StartMatchmaking
 	UFunction* pFnCancelSearch = nullptr; // Function TAGame.GFxData_PrivateMatch_TA.CancelSearch
@@ -22,8 +19,6 @@ private:
 	UFunction* pFnSetPlaylistSelection = nullptr; // Function TAGame.GFxData_Matchmaking_TA.SetPlaylistSelection
 	UFunction* pFnSetRegionSelection = nullptr; // Function TAGame.GFxData_Matchmaking_TA.SetRegionSelection
 	UFunction* pFnUpdateSelectedRegions = nullptr; // Function TAGame.GFxData_Matchmaking_TA.UpdateSelectedRegions
-
-	UGFxData_Matchmaking_TA* matchmaking = nullptr;
 private:
 	std::string localVersion = "138";
 	bool versionSafe = false;
