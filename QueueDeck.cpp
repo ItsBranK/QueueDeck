@@ -3,7 +3,7 @@
 #include <sstream>
 #include <fstream>
 
-BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "2.9", PERMISSION_ALL)
+BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "3.0", PERMISSION_ALL)
 
 enum EPlaylistRows
 {
@@ -38,20 +38,9 @@ enum ERegionRows
 
 void QueueDeck::checkVersion()
 {
-	std::filesystem::path bakkesModPath = gameWrapper->GetBakkesModPath();
-	bakkesModPath.append("version.txt");
-
-	if (std::filesystem::exists(bakkesModPath))
+	if (gameWrapper->IsUsingSteamVersion())
 	{
-		std::ifstream versionFile(std::filesystem::absolute(bakkesModPath));
-		std::string version;
-
-		versionFile.seekg(0, std::ios::end);
-		version.reserve(versionFile.tellg());
-		versionFile.seekg(0, std::ios::beg);
-		version.assign((std::istreambuf_iterator<char>(versionFile)), std::istreambuf_iterator<char>());
-
-		if (version == localVersion)
+		if (localSteamBuild == gameWrapper->GetSteamVersion())
 		{
 			versionSafe = true;
 		}
@@ -62,16 +51,24 @@ void QueueDeck::checkVersion()
 	}
 	else
 	{
-		versionSafe = false;
+		if (localEpicBuild == gameWrapper->GetPsyBuildID())
+		{
+			versionSafe = true;
+		}
+		else
+		{
+			versionSafe =  false;
+		}
 	}
 }
-
 bool QueueDeck::areGObjectsValid()
 {
 	if (GObjects->Count > 0 && GObjects->Max > GObjects->Num())
 	{
-		if (std::string(UObject::GObjObjects()->Data[0]->GetFullName()) == "Class Core.Config_ORS")
+		if (std::string(GObjects->Data[0]->GetFullName()) == "Class Core.Config_ORS")
+		{
 			return true;
+		}			
 	}
 
 	return false;
@@ -80,7 +77,12 @@ bool QueueDeck::areGObjectsValid()
 bool QueueDeck::areGNamesValid()
 {
 	if (GNames->Count > 0 && GNames->Max > GNames->Num())
-		return true;
+	{
+		if (FName(0).GetName() == "None")
+		{
+			return true;
+		}
+	}
 
 	return false;
 }
@@ -95,7 +97,7 @@ void QueueDeck::onLoad()
 		return;
 	}
 
-	// Yeah I know, but I'm too lazy to make a pattern that works for both platforms.
+	// Yeah I know.
 	if (gameWrapper->IsUsingSteamVersion())
 	{
 		uintptr_t BaseAddress = (uintptr_t)GetModuleHandle(NULL);
@@ -136,9 +138,9 @@ void QueueDeck::onLoad()
 		cvarManager->registerNotifier("queue_deselect_casual", [this](std::vector<std::string> params) { deselectCasuals(); }, "Deselects all casual playlists.", PERMISSION_ALL);
 		cvarManager->registerNotifier("queue_deselect_ranked", [this](std::vector<std::string> params) { deselectRanked(); }, "Deselects all normal ranked playlists.", PERMISSION_ALL);
 		cvarManager->registerNotifier("queue_deselect_extras", [this](std::vector<std::string> params) { deselectExtras(); }, "Deselects all extras playlists.", PERMISSION_ALL);
-		cvarManager->registerNotifier("queue_view_casual", [this](std::vector<std::string> params) { selectViewTab((unsigned char)EMatchmakingViewTab::MatchmakingViewTab_Unranked); }, "Selects your view tab to casual playlists.", PERMISSION_ALL);
-		cvarManager->registerNotifier("queue_view_ranked", [this](std::vector<std::string> params) { selectViewTab((unsigned char)EMatchmakingViewTab::MatchmakingViewTab_Ranked); }, "Selects your view tab to ranked playlists.", PERMISSION_ALL);
-		cvarManager->registerNotifier("queue_view_extras", [this](std::vector<std::string> params) { selectViewTab((unsigned char)EMatchmakingViewTab::MatchmakingViewTab_RankedSports); }, "Selects your view tab to extras playlists.", PERMISSION_ALL);
+		cvarManager->registerNotifier("queue_view_casual", [this](std::vector<std::string> params) { selectViewTab(static_cast<int>(EMatchmakingViewTab::MatchmakingViewTab_Unranked)); }, "Selects your view tab to casual playlists.", PERMISSION_ALL);
+		cvarManager->registerNotifier("queue_view_ranked", [this](std::vector<std::string> params) { selectViewTab(static_cast<int>(EMatchmakingViewTab::MatchmakingViewTab_Ranked)); }, "Selects your view tab to ranked playlists.", PERMISSION_ALL);
+		cvarManager->registerNotifier("queue_view_extras", [this](std::vector<std::string> params) { selectViewTab(static_cast<int>(EMatchmakingViewTab::MatchmakingViewTab_RankedSports)); }, "Selects your view tab to extras playlists.", PERMISSION_ALL);
 
 		cvarManager->registerNotifier("queue_select_cstandard", [this](std::vector<std::string> params) { selectPlaylist(EPlaylistRows::Casual_Standard); }, "Selects the casual standard playlist.", PERMISSION_ALL);
 		cvarManager->registerNotifier("queue_select_cdoubles", [this](std::vector<std::string> params) { selectPlaylist(EPlaylistRows::Casual_Doubles); }, "Selects the casual doubles playlist.", PERMISSION_ALL);
@@ -214,6 +216,7 @@ void QueueDeck::onUnload()
 	gameWrapper->UnhookEvent("Function TAGame.Team_TA.PostBeginPlay");
 }
 
+// Currently working on a better cross platform solution to this.
 void QueueDeck::loadInstances()
 {
 	classInstances.emplace("Core.Object", 0);
@@ -240,10 +243,14 @@ void QueueDeck::loadInstances()
 			std::map<std::string, int>::iterator functionIt = functionInstances.find(objectName);
 
 			if (classIt != classInstances.end())
+			{
 				classInstances[objectName] = object->ObjectInternalInteger;
+			}
 
 			if (functionIt != functionInstances.end())
+			{
 				functionInstances[objectName] = object->ObjectInternalInteger;
+			}
 		}
 	}
 
@@ -290,7 +297,8 @@ bool QueueDeck::isPlaylistCasual(int playlist)
 	if (playlist == EPlaylistRows::Casual_Standard
 		|| playlist == EPlaylistRows::Casual_Doubles
 		|| playlist == EPlaylistRows::Casual_Duels
-		|| playlist == EPlaylistRows::Casual_Chaos) {
+		|| playlist == EPlaylistRows::Casual_Chaos)
+	{
 		return true;
 	}
 	return false;
@@ -300,7 +308,8 @@ bool QueueDeck::isPlaylistRanked(int playlist)
 {
 	if (playlist == EPlaylistRows::Ranked_Standard
 		|| playlist == EPlaylistRows::Ranked_Doubles
-		|| playlist == EPlaylistRows::Ranked_Duels) {
+		|| playlist == EPlaylistRows::Ranked_Duels)
+	{
 		return true;
 	}
 	return false;
@@ -311,7 +320,8 @@ bool QueueDeck::isPlaylistExtras(int playlist)
 	if (playlist == EPlaylistRows::Extras_Rumble
 		|| playlist == EPlaylistRows::Extras_Dropshot
 		|| playlist == EPlaylistRows::Extras_Hoops
-		|| playlist == EPlaylistRows::Extras_Snowday) {
+		|| playlist == EPlaylistRows::Extras_Snowday)
+	{
 		return true;
 	}
 	return false;
@@ -344,7 +354,9 @@ void QueueDeck::cancel()
 void QueueDeck::selectAllRegions()
 {
 	for (int i = 0; i < ERegionRows::Regions_Max; i++)
+	{
 		SetRegionSelection(matchmaking, i, true);
+	}
 
 	UpdateSelectedRegions(matchmaking);
 }
@@ -352,7 +364,9 @@ void QueueDeck::selectAllRegions()
 void QueueDeck::selectAllPlaylists()
 {
 	for (int i = 0; i < EPlaylistRows::Playlists_Max; i++)
+	{
 		SetPlaylistSelection(matchmaking, i, true);
+	}
 }
 
 void QueueDeck::selectCasuals()
@@ -466,6 +480,7 @@ void QueueDeck::searchPlaylist(int playlist)
 void QueueDeck::StartMatchmaking(UGFxData_Matchmaking_TA* caller)
 {
 	UGFxData_Matchmaking_TA_execStartMatchmaking_Parms StartMatchmaking_Parms;
+	StartMatchmaking_Parms.ForcedPlaylistID = 0;
 
 	caller->ProcessEvent(pFnStartMatchmaking, &StartMatchmaking_Parms, nullptr);
 }

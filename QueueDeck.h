@@ -20,7 +20,8 @@ private:
 	UFunction* pFnSetRegionSelection = nullptr; // Function TAGame.GFxData_Matchmaking_TA.SetRegionSelection
 	UFunction* pFnUpdateSelectedRegions = nullptr; // Function TAGame.GFxData_Matchmaking_TA.UpdateSelectedRegions
 private:
-	std::string localVersion = "138";
+	int localSteamBuild = 6136283;
+	std::string localEpicBuild = "210111.34218.306877";
 	bool versionSafe = false;
 	bool classesSafe = false;
 	bool canSearch = true;
