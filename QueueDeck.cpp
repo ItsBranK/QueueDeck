@@ -400,14 +400,18 @@ void QueueDeck::selectViewTab(int tab)
 void QueueDeck::deselectAllRegions()
 {
 	for (int i = 0; i < ERegionRows::Regions_Max; i++)
+	{
 		SetRegionSelection(matchmaking, i, false);
+	}
 
 	UpdateSelectedRegions(matchmaking);
 }
 
 void QueueDeck::deselectAllPlaylists(){
 	for (int i = 0; i < EPlaylistRows::Playlists_Max; i++)
+	{
 		SetPlaylistSelection(matchmaking, i, false);
+	}
 }
 
 void QueueDeck::deselectCasuals()
