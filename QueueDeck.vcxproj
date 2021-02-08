@@ -144,58 +144,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="QueueDeck.cpp" />
-    <ClCompile Include="RLSDK\GameDefines.cpp" />
-    <ClCompile Include="RLSDK\SDK_HEADERS\AkAudio_classes.cpp" />
-    <ClCompile Include="RLSDK\SDK_HEADERS\Core_classes.cpp" />
-    <ClCompile Include="RLSDK\SDK_HEADERS\Engine_classes.cpp" />
-    <ClCompile Include="RLSDK\SDK_HEADERS\GFxUI_classes.cpp" />
-    <ClCompile Include="RLSDK\SDK_HEADERS\IpDrv_classes.cpp" />
-    <ClCompile Include="RLSDK\SDK_HEADERS\OnlineSubsystemEOS_classes.cpp" />
-    <ClCompile Include="RLSDK\SDK_HEADERS\OnlineSubsystemSteamworks_classes.cpp" />
-    <ClCompile Include="RLSDK\SDK_HEADERS\ProjectX_classes.cpp" />
-    <ClCompile Include="RLSDK\SDK_HEADERS\TAGame_classes.cpp" />
-    <ClCompile Include="RLSDK\SDK_HEADERS\WinDrv_classes.cpp" />
-    <ClCompile Include="RLSDK\SDK_HEADERS\XAudio2_classes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QueueDeck.h" />
-    <ClInclude Include="RLSDK\GameDefines.h" />
-    <ClInclude Include="RLSDK\SdkConstants.h" />
-    <ClInclude Include="RLSDK\SdkHeaders.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\AkAudio_classes.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\AkAudio_parameters.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\AkAudio_structs.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\Core_classes.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\Core_parameters.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\Core_structs.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\Engine_classes.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\Engine_parameters.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\Engine_structs.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\GFxUI_classes.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\GFxUI_parameters.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\GFxUI_structs.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\IpDrv_classes.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\IpDrv_parameters.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\IpDrv_structs.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\OnlineSubsystemEOS_classes.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\OnlineSubsystemEOS_parameters.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\OnlineSubsystemEOS_structs.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\OnlineSubsystemSteamworks_classes.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\OnlineSubsystemSteamworks_parameters.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\OnlineSubsystemSteamworks_structs.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\ProjectX_classes.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\ProjectX_parameters.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\ProjectX_structs.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\TAGame_classes.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\TAGame_parameters.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\TAGame_structs.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\WinDrv_classes.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\WinDrv_parameters.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\WinDrv_structs.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\XAudio2_classes.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\XAudio2_parameters.h" />
-    <ClInclude Include="RLSDK\SDK_HEADERS\XAudio2_structs.h" />
-    <ClInclude Include="RLSDK\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

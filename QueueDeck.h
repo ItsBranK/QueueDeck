@@ -2,68 +2,39 @@
 #define WIN32_LEAN_AND_MEAN
 #pragma comment(lib, "pluginsdk.lib")
 #include "bakkesmod/plugin/bakkesmodplugin.h"
-#include "RLSDK/SdkHeaders.h"
-#include "RLSDK/Utils.h"
+#include "bakkesmod/wrappers/MatchmakingWrapper.h"
 
 class QueueDeck : public BakkesMod::Plugin::BakkesModPlugin
 {
 private:
-	std::map<std::string, int> classInstances;
-	std::map<std::string, int> functionInstances;
-
-	UGFxData_Matchmaking_TA* matchmaking = nullptr; // Class TAGame.GFxData_Matchmaking_TA
-
-	UFunction* pFnStartMatchmaking = nullptr; // Function TAGame.OnlineGameTourMatchmaking_TA.StartMatchmaking
-	UFunction* pFnCancelSearch = nullptr; // Function TAGame.GFxData_PrivateMatch_TA.CancelSearch
-	UFunction* pFnSetMatchmakingViewTab = nullptr; // Function TAGame.GFxData_Matchmaking_TA.SetMatchmakingViewTab
-	UFunction* pFnSetPlaylistSelection = nullptr; // Function TAGame.GFxData_Matchmaking_TA.SetPlaylistSelection
-	UFunction* pFnSetRegionSelection = nullptr; // Function TAGame.GFxData_Matchmaking_TA.SetRegionSelection
-	UFunction* pFnUpdateSelectedRegions = nullptr; // Function TAGame.GFxData_Matchmaking_TA.UpdateSelectedRegions
-private:
-	int localSteamBuild = 6136283;
-	std::string localEpicBuild = "210111.34218.306877";
-	bool versionSafe = false;
-	bool classesSafe = false;
-	bool canSearch = true;
+	PlaylistCategory SelectedViewTab = PlaylistCategory::CASUAL;
+	bool CanSearch = true;
 public:
-	void checkVersion();
-	bool areGObjectsValid();
-	bool areGNamesValid();
-
 	virtual void onLoad();
 	virtual void onUnload();
 
-	void loadInstances();
-	void setCanSearch(bool search);
-	bool isPlaylistCasual(int playlist);
-	bool isPlaylistRanked(int playlist);
-	bool isPlaylistExtras(int playlist);
+	void SetCanSearch(bool search);
+	bool IsPlaylistCasual(Playlist playlist);
+	bool IsPlaylistRanked(Playlist playlist);
+	bool IsPlaylistExtras(Playlist playlist);
 public:
-	void search();
-	void cancel();
+	void Search();
+	void Cancel();
 
-	void selectAllRegions();
-	void selectAllPlaylists();
-	void selectCasuals();
-	void selectRanked();
-	void selectExtras();
-	void selectViewTab(int tab);
-	void deselectAllRegions();
-	void deselectAllPlaylists();
-	void deselectCasuals();
-	void deselectRanked();
-	void deselectExtras();
+	void SelectAllRegions();
+	void SelectAllPlaylists();
+	void SelectCasuals();
+	void SelectRanked();
+	void SelectExtras();
 
-	void selectRegion(int region);
-	void selectPlaylist(int playlist);
-	void deselectPlaylist(int playlist);
-	void deselectRegion(int region);
-	void searchPlaylist(int playlist);
-public:
-	void StartMatchmaking(UGFxData_Matchmaking_TA* caller);
-	void CancelSearch(UGFxData_Matchmaking_TA* caller);
-	void SetRegionSelection(UGFxData_Matchmaking_TA* caller, int Row, unsigned long bSelected);
-	void UpdateSelectedRegions(UGFxData_Matchmaking_TA* caller);
-	void SetPlaylistSelection(UGFxData_Matchmaking_TA* caller, int Row, unsigned long bSelected);
-	void SetMatchmakingViewTab(UGFxData_Matchmaking_TA* caller, unsigned char InMatchmakingViewTab);
+	void DeselectAllRegions();
+	void DeselectAllPlaylists();
+	void DeselectCasuals();
+	void DeselectRanked();
+	void DeselectExtras();
+
+	void SetViewTab(PlaylistCategory tab);
+	void SetPlaylistSelection(Playlist playlist, bool bSelected);
+	void SetRegionSelection(Region region, bool bSelected);
+	void SearchPlaylist(Playlist playlist);
 };
