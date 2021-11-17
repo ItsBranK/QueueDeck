@@ -1,22 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Headers">
+    <Filter Include="Plugin">
       <UniqueIdentifier>{60540269-a10c-4cc9-9695-3e0df1b5e91e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="QueueDeck.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
+    <ClInclude Include="QueueDeck.hpp">
+      <Filter>Plugin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="QueueDeck.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
+    <ClCompile Include="QueueDeck.cpp">
+      <Filter>Plugin</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

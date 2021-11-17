@@ -1,6 +1,7 @@
-#include "QueueDeck.h"
+#include "QueueDeck.hpp"
 
-BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "3.2", PERMISSION_ALL)
+BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "3.4", PERMISSION_ALL)
+
 
 void QueueDeck::onLoad()
 {
@@ -68,6 +69,7 @@ void QueueDeck::onLoad()
 	cvarManager->registerNotifier("queue_select_oce", [this](std::vector<std::string> params) { SetRegionSelection(Region::OCE, true); }, "Selects the Oceania region.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_select_saf", [this](std::vector<std::string> params) { SetRegionSelection(Region::SAF, true); }, "Selects the South Africa region.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_select_sam", [this](std::vector<std::string> params) { SetRegionSelection(Region::SAM, true); }, "Selects the South America region.", PERMISSION_ALL);
+	cvarManager->registerNotifier("queue_select_ind", [this](std::vector<std::string> params) { SetRegionSelection(Region::IND, true); }, "Selects the India region.", PERMISSION_ALL);
 
 	cvarManager->registerNotifier("queue_deselect_use", [this](std::vector<std::string> params) { SetRegionSelection(Region::USE, false); }, "Deselects the US-East region.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_deselect_eu", [this](std::vector<std::string> params) { SetRegionSelection(Region::EU, false); }, "Deselects the Europe region.", PERMISSION_ALL);
@@ -79,6 +81,7 @@ void QueueDeck::onLoad()
 	cvarManager->registerNotifier("queue_deselect_oce", [this](std::vector<std::string> params) { SetRegionSelection(Region::OCE, false); }, "Deselects the Oceania region.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_deselect_saf", [this](std::vector<std::string> params) { SetRegionSelection(Region::SAF, false); }, "Deselects the South Africa region.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_deselect_sam", [this](std::vector<std::string> params) { SetRegionSelection(Region::SAM, false); }, "Deselects the South America region.", PERMISSION_ALL);
+	cvarManager->registerNotifier("queue_deselect_ind", [this](std::vector<std::string> params) { SetRegionSelection(Region::IND, false); }, "Deselects the India region.", PERMISSION_ALL);
 
 	gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA.OnMatchWinnerSet", [this](std::string eventName) { SetCanSearch(true); });
 	gameWrapper->HookEvent("Function TAGame.Team_TA.PostBeginPlay", [this](std::string eventName) { SetCanSearch(false); });

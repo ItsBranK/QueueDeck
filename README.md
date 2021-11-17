@@ -100,6 +100,7 @@ There's a grand total of 70 commands included in this plugin, yes, that's a lot;
 | queue_select_oce | Selects the Oceania region. |
 | queue_select_saf | Selects the South Africa region. |
 | queue_select_sam | Selects the South America region. |
+| queue_select_ind | Selects the India region. |
 | queue_deselect_use | Deselects the US-East region. |
 | queue_deselect_eu | Deselects the Europe region. |
 | queue_deselect_usw | Deselects the US-Weast region. |
@@ -110,3 +111,4 @@ There's a grand total of 70 commands included in this plugin, yes, that's a lot;
 | queue_deselect_oce | Deselects the Oceania region. |
 | queue_deselect_saf | Deselects the South Africa region. |
 | queue_deselect_sam | Deselects the South America region. |
+| queue_deselect_ind | Deselects the India region. |
