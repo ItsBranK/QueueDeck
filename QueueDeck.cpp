@@ -1,7 +1,6 @@
 #include "QueueDeck.hpp"
 
-BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "3.4", PERMISSION_ALL)
-
+BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "3.5", PERMISSION_ALL)
 
 void QueueDeck::onLoad()
 {
