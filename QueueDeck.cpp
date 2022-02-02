@@ -82,6 +82,7 @@ void QueueDeck::onLoad()
 	cvarManager->registerNotifier("queue_deselect_sam", [this](std::vector<std::string> params) { SetRegionSelection(Region::SAM, false); }, "Deselects the South America region.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_deselect_ind", [this](std::vector<std::string> params) { SetRegionSelection(Region::IND, false); }, "Deselects the India region.", PERMISSION_ALL);
 
+	gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA.Destroyed", [this](std::string eventName) { SetCanSearch(true); });
 	gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA.OnMatchWinnerSet", [this](std::string eventName) { SetCanSearch(true); });
 	gameWrapper->HookEvent("Function TAGame.Team_TA.PostBeginPlay", [this](std::string eventName) { SetCanSearch(false); });
 }
