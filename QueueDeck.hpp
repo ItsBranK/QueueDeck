@@ -7,7 +7,6 @@
 class QueueDeck : public BakkesMod::Plugin::BakkesModPlugin
 {
 private:
-	PlaylistCategory SelectedViewTab = PlaylistCategory::CASUAL;
 	bool CanSearch = true;
 
 public:

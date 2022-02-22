@@ -1,6 +1,6 @@
 #include "QueueDeck.hpp"
 
-BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "3.5", PERMISSION_ALL)
+BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "3.6", PERMISSION_ALL)
 
 void QueueDeck::onLoad()
 {
@@ -144,13 +144,13 @@ void QueueDeck::Search()
 	{
 		if (!gameWrapper->IsInOnlineGame())
 		{
-			mmw.StartMatchmaking(SelectedViewTab);
+			mmw.StartMatchmaking(static_cast<PlaylistCategory>(mmw.GetActiveViewTab()));
 		}
 		else
 		{
 			if (CanSearch)
 			{
-				mmw.StartMatchmaking(SelectedViewTab);
+				mmw.StartMatchmaking(static_cast<PlaylistCategory>(mmw.GetActiveViewTab()));
 			}
 			else
 			{
@@ -327,7 +327,12 @@ void QueueDeck::DeselectExtras()
 
 void QueueDeck::SetViewTab(PlaylistCategory tab)
 {
-	SelectedViewTab = tab;
+	MatchmakingWrapper mmw = gameWrapper->GetMatchmakingWrapper();
+
+	if (mmw)
+	{
+		mmw.SetViewTab(tab);
+	}
 }
 
 void QueueDeck::SetPlaylistSelection(Playlist playlist, bool bSelected)
