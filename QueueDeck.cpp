@@ -1,6 +1,6 @@
 #include "QueueDeck.hpp"
 
-BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "3.6", PERMISSION_ALL)
+BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "3.8", PERMISSION_ALL)
 
 void QueueDeck::onLoad()
 {
@@ -83,13 +83,14 @@ void QueueDeck::onLoad()
 	cvarManager->registerNotifier("queue_deselect_ind", [this](std::vector<std::string> params) { SetRegionSelection(Region::IND, false); }, "Deselects the India region.", PERMISSION_ALL);
 
 	gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA.Destroyed", [this](std::string eventName) { SetCanSearch(true); });
-	gameWrapper->HookEvent("Function TAGame.GameEvent_Soccar_TA.OnMatchWinnerSet", [this](std::string eventName) { SetCanSearch(true); });
+	gameWrapper->HookEvent("Function TAGame.AchievementSystem_TA.CheckWonMatch", [this](std::string eventName) { SetCanSearch(true); });
 	gameWrapper->HookEvent("Function TAGame.Team_TA.PostBeginPlay", [this](std::string eventName) { SetCanSearch(false); });
 }
 
 void QueueDeck::onUnload()
 {
-	gameWrapper->UnhookEvent("Function TAGame.GameEvent_Soccar_TA.OnMatchWinnerSet");
+	gameWrapper->UnhookEvent("Function TAGame.GameEvent_Soccar_TA.Destroyed");
+	gameWrapper->UnhookEvent("Function TAGame.AchievementSystem_TA.CheckWonMatch");
 	gameWrapper->UnhookEvent("Function TAGame.Team_TA.PostBeginPlay");
 }
 
@@ -100,40 +101,17 @@ void QueueDeck::SetCanSearch(bool search)
 
 bool QueueDeck::IsPlaylistCasual(Playlist playlist)
 {
-	if (playlist == Playlist::CASUAL_STANDARD
-		|| playlist == Playlist::CASUAL_DOUBLES
-		|| playlist == Playlist::CASUAL_DUELS
-		|| playlist == Playlist::CASUAL_CHAOS)
-	{
-		return true;
-	}
-
-	return false;
+	return ((playlist == Playlist::CASUAL_STANDARD) || (playlist == Playlist::CASUAL_DOUBLES) || (playlist == Playlist::CASUAL_DUELS) || (playlist == Playlist::CASUAL_CHAOS));
 }
 
 bool QueueDeck::IsPlaylistRanked(Playlist playlist)
 {
-	if (playlist == Playlist::RANKED_STANDARD
-		|| playlist == Playlist::RANKED_DOUBLES
-		|| playlist == Playlist::RANKED_DUELS)
-	{
-		return true;
-	}
-
-	return false;
+	return ((playlist == Playlist::RANKED_STANDARD) || (playlist == Playlist::RANKED_DOUBLES) || (playlist == Playlist::RANKED_DUELS));
 }
 
 bool QueueDeck::IsPlaylistExtras(Playlist playlist)
 {
-	if (playlist == Playlist::EXTRAS_RUMBLE
-		|| playlist == Playlist::EXTRAS_DROPSHOT
-		|| playlist == Playlist::EXTRAS_HOOPS
-		|| playlist == Playlist::EXTRAS_SNOWDAY)
-	{
-		return true;
-	}
-
-	return false;
+	return ((playlist == Playlist::EXTRAS_RUMBLE) || (playlist == Playlist::EXTRAS_DROPSHOT) || (playlist == Playlist::EXTRAS_HOOPS) || (playlist == Playlist::EXTRAS_SNOWDAY));
 }
 
 void QueueDeck::Search()
