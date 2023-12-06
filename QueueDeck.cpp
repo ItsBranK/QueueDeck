@@ -99,12 +99,21 @@ void QueueDeck::SetCanSearch(bool search)
 
 bool QueueDeck::IsPlaylistCasual(Playlist playlist)
 {
-	return ((playlist == Playlist::CASUAL_STANDARD) || (playlist == Playlist::CASUAL_DOUBLES) || (playlist == Playlist::CASUAL_DUELS) || (playlist == Playlist::CASUAL_CHAOS));
+	return ((playlist == Playlist::CASUAL_STANDARD)
+		|| (playlist == Playlist::CASUAL_DOUBLES)
+		|| (playlist == Playlist::CASUAL_DUELS)
+		|| (playlist == Playlist::CASUAL_CHAOS));
 }
 
 bool QueueDeck::IsPlaylistRanked(Playlist playlist)
 {
-	return ((playlist == Playlist::RANKED_STANDARD) || (playlist == Playlist::RANKED_DOUBLES) || (playlist == Playlist::RANKED_DUELS));
+	return ((playlist == Playlist::RANKED_STANDARD)
+		|| (playlist == Playlist::RANKED_DOUBLES)
+		|| (playlist == Playlist::RANKED_DUELS)
+		|| (playlist == Playlist::EXTRAS_RUMBLE)
+		|| (playlist == Playlist::EXTRAS_DROPSHOT)
+		|| (playlist == Playlist::EXTRAS_HOOPS)
+		|| (playlist == Playlist::EXTRAS_SNOWDAY));
 }
 
 void QueueDeck::Search()
