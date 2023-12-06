@@ -57,11 +57,9 @@ There's a grand total of 70 commands included in this plugin, yes, that's a lot;
 | queue_select_playlists | Selects all playlists. |
 | queue_select_casual | Selects all casual playlists. |
 | queue_select_ranked | Selects all normal ranked playlists. |
-| queue_select_extras | Selects all extras ranked playlists. |
 | queue_deselect_playlists | Deselects all playlists. |
 | queue_deselect_casual | Deselects all casual playlists. |
 | queue_deselect_ranked | Deselects all normal ranked playlists. |
-| queue_deselect_extras | Deselects all extras playlists. |
 | queue_select_cstandard | Selects the casual standard playlist. |
 | queue_select_cdoubles | Selects the casual doubles playlist. |
 | queue_select_cduels | Selects the casual duels playlist. |

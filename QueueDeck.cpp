@@ -1,6 +1,6 @@
 #include "QueueDeck.hpp"
 
-BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "3.8", PERMISSION_ALL)
+BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "4.0", PERMISSION_ALL)
 
 void QueueDeck::onLoad()
 {
@@ -16,10 +16,8 @@ void QueueDeck::onLoad()
 	cvarManager->registerNotifier("queue_deselect_playlists", [this](std::vector<std::string> params) { DeselectAllPlaylists(); }, "Deselects all playlists.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_deselect_casual", [this](std::vector<std::string> params) { DeselectCasuals(); }, "Deselects all casual playlists.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_deselect_ranked", [this](std::vector<std::string> params) { DeselectRanked(); }, "Deselects all normal ranked playlists.", PERMISSION_ALL);
-	cvarManager->registerNotifier("queue_deselect_extras", [this](std::vector<std::string> params) { DeselectExtras(); }, "Deselects all extras playlists.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_view_casual", [this](std::vector<std::string> params) { SetViewTab(PlaylistCategory::CASUAL); }, "Selects your view tab to casual playlists.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_view_ranked", [this](std::vector<std::string> params) { SetViewTab(PlaylistCategory::RANKED); }, "Selects your view tab to ranked playlists.", PERMISSION_ALL);
-	cvarManager->registerNotifier("queue_view_extras", [this](std::vector<std::string> params) { SetViewTab(PlaylistCategory::EXTRAS); }, "Selects your view tab to extras playlists.", PERMISSION_ALL);
 	
 	cvarManager->registerNotifier("queue_select_cstandard", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::CASUAL_STANDARD, true); }, "Selects the casual standard playlist.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_select_cdoubles", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::CASUAL_DOUBLES, true); }, "Selects the casual doubles playlist.", PERMISSION_ALL);
@@ -107,11 +105,6 @@ bool QueueDeck::IsPlaylistCasual(Playlist playlist)
 bool QueueDeck::IsPlaylistRanked(Playlist playlist)
 {
 	return ((playlist == Playlist::RANKED_STANDARD) || (playlist == Playlist::RANKED_DOUBLES) || (playlist == Playlist::RANKED_DUELS));
-}
-
-bool QueueDeck::IsPlaylistExtras(Playlist playlist)
-{
-	return ((playlist == Playlist::EXTRAS_RUMBLE) || (playlist == Playlist::EXTRAS_DROPSHOT) || (playlist == Playlist::EXTRAS_HOOPS) || (playlist == Playlist::EXTRAS_SNOWDAY));
 }
 
 void QueueDeck::Search()
@@ -287,15 +280,6 @@ void QueueDeck::DeselectRanked()
 		mmw.SetPlaylistSelection(Playlist::RANKED_STANDARD, false);
 		mmw.SetPlaylistSelection(Playlist::RANKED_DOUBLES, false);
 		mmw.SetPlaylistSelection(Playlist::RANKED_DUELS, false);
-	}
-}
-
-void QueueDeck::DeselectExtras()
-{
-	MatchmakingWrapper mmw = gameWrapper->GetMatchmakingWrapper();
-
-	if (mmw)
-	{
 		mmw.SetPlaylistSelection(Playlist::EXTRAS_RUMBLE, false);
 		mmw.SetPlaylistSelection(Playlist::EXTRAS_DROPSHOT, false);
 		mmw.SetPlaylistSelection(Playlist::EXTRAS_HOOPS, false);
@@ -345,11 +329,7 @@ void QueueDeck::SearchPlaylist(Playlist playlist)
 	}
 	else if (IsPlaylistRanked(playlist))
 	{
-		SetViewTab(PlaylistCategory::RANKED);
-	}
-	else if (IsPlaylistExtras(playlist))
-	{
-		SetViewTab(PlaylistCategory::EXTRAS);
+		SetViewTab(static_cast<PlaylistCategory>(7)); // New value is 7, bmsdk hasn't updated yet.
 	}
 
 	SetPlaylistSelection(playlist, true);

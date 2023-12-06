@@ -12,11 +12,9 @@ private:
 public:
 	virtual void onLoad();
 	virtual void onUnload();
-
 	void SetCanSearch(bool search);
 	bool IsPlaylistCasual(Playlist playlist);
 	bool IsPlaylistRanked(Playlist playlist);
-	bool IsPlaylistExtras(Playlist playlist);
 
 public:
 	void Search();
@@ -32,7 +30,6 @@ public:
 	void DeselectAllPlaylists();
 	void DeselectCasuals();
 	void DeselectRanked();
-	void DeselectExtras();
 
 	void SetViewTab(PlaylistCategory tab);
 	void SetPlaylistSelection(Playlist playlist, bool bSelected);
