@@ -67,7 +67,6 @@ There's a grand total of 70 commands included in this plugin, yes, that's a lot;
 | queue_select_rstandard | Selects the ranked standard playlist. |
 | queue_select_rdoubles | Selects the ranked doubles playlist. |
 | queue_select_rduels | Selects the ranked duels playlist. |
-| queue_select_ehoops | Selects the extras hoops playlist. |
 | queue_select_rrumble | Selects the extras rumble playlist. |
 | queue_select_rdropshot | Selects the extras dropshot playlist. |
 | queue_select_rhoops | Selects the extras hoops playlist. |
@@ -79,10 +78,10 @@ There's a grand total of 70 commands included in this plugin, yes, that's a lot;
 | queue_deselect_rstandard | Deselects the ranked standard playlist. |
 | queue_deselect_rdoubles | Deselects the ranked doubles playlist. |
 | queue_deselect_rduels | Deselects the ranked duels playlist. |
-| queue_deselect_erumble | Deselects the extras rumble playlist. |
-| queue_deselect_edropshot | Deselects the extras dropshot playlist. |
-| queue_deselect_ehoops | Deselects the extras hoops playlist. |
-| queue_deselect_esnowday | Deselects the extras snowday playlist. |
+| queue_deselect_rrumble | Deselects the extras rumble playlist. |
+| queue_deselect_rdropshot | Deselects the extras dropshot playlist. |
+| queue_deselect_rhoops | Deselects the extras hoops playlist. |
+| queue_deselect_rsnowday | Deselects the extras snowday playlist. |
 
 | Region Commands | Description |
 | ------ | ------ |
