@@ -1,6 +1,6 @@
 #include "QueueDeck.hpp"
 
-BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "4.0", PERMISSION_ALL)
+BAKKESMOD_PLUGIN(QueueDeck, "Full control over matchmaking via commands.", "4.1", PERMISSION_ALL)
 
 void QueueDeck::onLoad()
 {
@@ -26,10 +26,10 @@ void QueueDeck::onLoad()
 	cvarManager->registerNotifier("queue_select_rstandard", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::RANKED_STANDARD, true); }, "Selects the ranked standard playlist.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_select_rdoubles", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::RANKED_DOUBLES, true); }, "Selects the ranked doubles playlist.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_select_rduels", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::RANKED_DUELS, true); }, "Selects the ranked duels playlist.", PERMISSION_ALL);
-	cvarManager->registerNotifier("queue_select_erumble", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::EXTRAS_RUMBLE, true); }, "Selects the extras rumble playlist.", PERMISSION_ALL);
-	cvarManager->registerNotifier("queue_select_edropshot", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::EXTRAS_DROPSHOT, true); }, "Selects the extras dropshot playlist.", PERMISSION_ALL);
-	cvarManager->registerNotifier("queue_select_ehoops", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::EXTRAS_HOOPS, true); }, "Selects the extras hoops playlist.", PERMISSION_ALL);
-	cvarManager->registerNotifier("queue_select_esnowday", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::EXTRAS_SNOWDAY, true); }, "Selects the extras snowday playlist.", PERMISSION_ALL);
+	cvarManager->registerNotifier("queue_select_rrumble", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::EXTRAS_RUMBLE, true); }, "Selects the extras rumble playlist.", PERMISSION_ALL);
+	cvarManager->registerNotifier("queue_select_rdropshot", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::EXTRAS_DROPSHOT, true); }, "Selects the extras dropshot playlist.", PERMISSION_ALL);
+	cvarManager->registerNotifier("queue_select_rhoops", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::EXTRAS_HOOPS, true); }, "Selects the extras hoops playlist.", PERMISSION_ALL);
+	cvarManager->registerNotifier("queue_select_rsnowday", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::EXTRAS_SNOWDAY, true); }, "Selects the extras snowday playlist.", PERMISSION_ALL);
 
 	cvarManager->registerNotifier("queue_deselect_cstandard", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::CASUAL_STANDARD, false); }, "Deselects the casual standard playlist.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_deselect_cdoubles", [this](std::vector<std::string> params) { SetPlaylistSelection(Playlist::CASUAL_DOUBLES, false); }, "Deselects the casual doubles playlist.", PERMISSION_ALL);
@@ -50,10 +50,10 @@ void QueueDeck::onLoad()
 	cvarManager->registerNotifier("queue_search_rstandard", [this](std::vector<std::string> params) { SearchPlaylist(Playlist::RANKED_STANDARD); }, "Starts searching in only the ranked standard playlist.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_search_rdoubles", [this](std::vector<std::string> params) { SearchPlaylist(Playlist::RANKED_DOUBLES); }, "Starts searching in only the ranked doubles playlist.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_search_rduels", [this](std::vector<std::string> params) { SearchPlaylist(Playlist::RANKED_DUELS); }, "Starts searching in only the ranked duels playlist.", PERMISSION_ALL);
-	cvarManager->registerNotifier("queue_search_erumble", [this](std::vector<std::string> params) { SearchPlaylist(Playlist::EXTRAS_RUMBLE); }, "Starts searching in only the extras rumble playlist.", PERMISSION_ALL);
-	cvarManager->registerNotifier("queue_search_edropshot", [this](std::vector<std::string> params) { SearchPlaylist(Playlist::EXTRAS_DROPSHOT); }, "Starts searching in only the extras dropshot playlist.", PERMISSION_ALL);
-	cvarManager->registerNotifier("queue_search_ehoops", [this](std::vector<std::string> params) { SearchPlaylist(Playlist::EXTRAS_HOOPS); }, "Starts searching in only the extras hoops playlist.", PERMISSION_ALL);
-	cvarManager->registerNotifier("queue_search_esnowday", [this](std::vector<std::string> params) { SearchPlaylist(Playlist::EXTRAS_SNOWDAY); }, "Starts searching in only the extras snowday playlist.", PERMISSION_ALL);
+	cvarManager->registerNotifier("queue_search_rrumble", [this](std::vector<std::string> params) { SearchPlaylist(Playlist::EXTRAS_RUMBLE); }, "Starts searching in only the extras rumble playlist.", PERMISSION_ALL);
+	cvarManager->registerNotifier("queue_search_rdropshot", [this](std::vector<std::string> params) { SearchPlaylist(Playlist::EXTRAS_DROPSHOT); }, "Starts searching in only the extras dropshot playlist.", PERMISSION_ALL);
+	cvarManager->registerNotifier("queue_search_rhoops", [this](std::vector<std::string> params) { SearchPlaylist(Playlist::EXTRAS_HOOPS); }, "Starts searching in only the extras hoops playlist.", PERMISSION_ALL);
+	cvarManager->registerNotifier("queue_search_rsnowday", [this](std::vector<std::string> params) { SearchPlaylist(Playlist::EXTRAS_SNOWDAY); }, "Starts searching in only the extras snowday playlist.", PERMISSION_ALL);
 
 	cvarManager->registerNotifier("queue_select_rec", [this](std::vector<std::string> params) { DeselectAllRegions(); }, "Selects the Recommended region.", PERMISSION_ALL);
 	cvarManager->registerNotifier("queue_select_use", [this](std::vector<std::string> params) { SetRegionSelection(Region::USE, true); }, "Selects the US-East region.", PERMISSION_ALL);
@@ -338,7 +338,7 @@ void QueueDeck::SearchPlaylist(Playlist playlist)
 	}
 	else if (IsPlaylistRanked(playlist))
 	{
-		SetViewTab(static_cast<PlaylistCategory>(7)); // New value is 7, bmsdk hasn't updated yet.
+		SetViewTab(PlaylistCategory::RANKED);
 	}
 
 	SetPlaylistSelection(playlist, true);
