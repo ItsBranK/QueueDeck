@@ -47,10 +47,10 @@ There's a grand total of 70 commands included in this plugin, yes, that's a lot;
 | queue_search_rstandard | Starts searching in only the ranked standard playlist. |
 | queue_search_rdoubles | Starts searching in only the ranked doubles playlist. |
 | queue_search_rduels | Starts searching in only the ranked duels playlist. |
-| queue_search_erumble | Starts searching in only the extras rumble playlist. |
-| queue_search_edropshot | Starts searching in only the extras dropshot playlist. |
-| queue_search_ehoops | Starts searching in only the extras hoops playlist. |
-| queue_search_esnowday | Starts searching in only the extras snowday playlist. |
+| queue_search_rrumble | Starts searching in only the extras rumble playlist. |
+| queue_search_rdropshot | Starts searching in only the extras dropshot playlist. |
+| queue_search_rhoops | Starts searching in only the extras hoops playlist. |
+| queue_search_rsnowday | Starts searching in only the extras snowday playlist. |
 
 | Playlist Commands | Description |
 | ------ | ------ |
@@ -67,10 +67,11 @@ There's a grand total of 70 commands included in this plugin, yes, that's a lot;
 | queue_select_rstandard | Selects the ranked standard playlist. |
 | queue_select_rdoubles | Selects the ranked doubles playlist. |
 | queue_select_rduels | Selects the ranked duels playlist. |
-| queue_select_erumble | Selects the extras rumble playlist. |
-| queue_select_edropshot | Selects the extras dropshot playlist. |
 | queue_select_ehoops | Selects the extras hoops playlist. |
-| queue_select_esnowday | Selects the extras snowday playlist. |
+| queue_select_rrumble | Selects the extras rumble playlist. |
+| queue_select_rdropshot | Selects the extras dropshot playlist. |
+| queue_select_rhoops | Selects the extras hoops playlist. |
+| queue_select_rsnowday | Selects the extras snowday playlist. |
 | queue_deselect_cstandard | Deselects the casual standard playlist. |
 | queue_deselect_cdoubles | Deselects the casual doubles playlist. |
 | queue_deselect_cduels | Deselects the casual duels playlist. |
